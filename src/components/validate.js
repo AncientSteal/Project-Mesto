@@ -1,4 +1,4 @@
-// validation.js
+//общая валидация
 import { createCard } from './card.js';
 import { closeModal } from './modal.js';
 export const toggleButtonState = (inputs, buttonElement) => {
@@ -21,6 +21,7 @@ const showInputError = (input) => {
     const errorElement = document.querySelector(`.${input.name}-error`);
     if (errorElement) {
         errorElement.textContent = input.validity.valueMissing ? 'Вы пропустили это поле.' :
+                                   input.validity.typeMismatch ? 'Введите корректный URL.' :
                                    input.validity.tooShort ? 'Минимальное количество символов: 2.' :
                                    '';
     }
@@ -32,7 +33,7 @@ const hideInputError = (input) => {
         errorElement.textContent = '';
     }
 };
-
+//валидация редактирования профиля
 export const validateProfileForm = (formElement) => {
     const nameInput = formElement.querySelector('.popup__input_type_name');
     const descriptionInput = formElement.querySelector('.popup__input_type_description');
@@ -60,6 +61,33 @@ export const validateProfileForm = (formElement) => {
     });
 };
 
+//валидация редактирования аватара
+export const validateAvatarForm = (avatarFormElement) => {
+    const avatarLinkInput = avatarFormElement.querySelector('.popup__input_type_avatar-url');
+    const addButton = avatarFormElement.querySelector('.popup__button');
+
+    // Добавляем класс для неактивного состояния при загрузке
+    addButton.classList.add('popup__button_state_inactive');
+    addButton.disabled = true; // Делаем кнопку недоступной
+
+    avatarLinkInput.addEventListener('input', () => toggleButtonState([avatarLinkInput], addButton));
+
+    avatarFormElement.addEventListener('submit', (event) => {
+        event.preventDefault();
+        if (!isValidURL(avatarLinkInput.value)) return;
+
+        // Закрываем поп-ап
+        closeModal(document.querySelector('.popup_type_edit-avatar'));
+
+        // Сбрасываем форму
+        avatarFormElement.reset();
+        
+        // Инициализируем проверку валидности при сбросе формы
+        toggleButtonState([avatarLinkInput], addButton);
+    });
+};
+
+// Валидация добавления карточки
 export const validateNewCardForm = (formElement, placesList, cardPopup) => {
     const placeNameInput = formElement.querySelector('.popup__input_type_card-name');
     const placeLinkInput = formElement.querySelector('.popup__input_type_url');
@@ -69,12 +97,13 @@ export const validateNewCardForm = (formElement, placesList, cardPopup) => {
     addButton.classList.add('popup__button_state_inactive');
     addButton.disabled = true; // Делаем кнопку недоступной
 
-
     placeNameInput.addEventListener('input', () => toggleButtonState([placeNameInput, placeLinkInput], addButton));
     placeLinkInput.addEventListener('input', () => toggleButtonState([placeNameInput, placeLinkInput], addButton));
 
     formElement.addEventListener('submit', (event) => {
         event.preventDefault();
+        
+        // Проверяем валидность полей перед отправкой формы
         if (!placeNameInput.validity.valid || !isValidURL(placeLinkInput.value)) return;
 
         // Создаем новую карточку
@@ -94,6 +123,7 @@ export const validateNewCardForm = (formElement, placesList, cardPopup) => {
         toggleButtonState([placeNameInput, placeLinkInput], addButton);
     });
 };
+
 
 // Функция для проверки валидности URL
 export const isValidURL = (url) => {

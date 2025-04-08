@@ -14,7 +14,10 @@
   </header>
   <main class="content">
     <section class="profile page__section">
-      <div class="profile__image" style="background-image: url('../src/images/avatar.jpg');"></div>
+      <div class="profile__image" style="background-image: url('../src/images/avatar.jpg');">
+        <div class="overlay"></div>
+        <button type="button" class="profile__edit-icon button" id="profile__edit-icon"></button>
+      </div>
       <div class="profile__info">
         <h1 class="profile__title">Жак-Ив Кусто</h1>
         <button class="profile__edit-button" type="button"></button>
@@ -45,6 +48,24 @@
         <span class="popup__input-error description-error"></span>
         <button type="submit" class="button popup__button">Сохранить</button>
       </form>
+    </div>
+  </div>
+  <div class="popup popup_type_edit-avatar">
+    <div class="popup__content">
+        <button class="popup__close" type="button"></button>
+        <h3 class="popup__title">Обновить аватар</h2>
+        <form class="popup__form" name="edit-avatar" novalidate>
+          <input
+          placeholder="Ссылка на картинку"
+          name="popup-input-avatar-link"
+          id="popup-input-image-link"
+          type="url"
+          class="popup__input popup__input_type_avatar-url"
+          required
+          />
+          <span class="popup__input-error popup-input-avatar-link-error"></span>
+          <button type="submit" class="button popup__button">Сохранить</button>
+        </form>
     </div>
   </div>
   <div class="popup popup_type_new-card">
@@ -92,7 +113,10 @@
     <div class="card__description">
       <h2 class="card__title">
       </h2>
-      <button type="button" class="card__like-button"></button>
+      <div class="card__like-container">
+        <button type="button" class="card__like-button"></button>
+        <span class="card__likes-count">0</span>
+      </div>
     </div>
   </li>
 </template>
