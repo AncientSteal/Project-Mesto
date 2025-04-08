@@ -112,6 +112,11 @@ document.addEventListener('DOMContentLoaded', () => {
           const nameValue = nameInput.value;
           const descriptionValue = descriptionInput.value;
 
+  //UX формы
+  const submitButton = profileFormElement;
+  const originalButtonText = submitButton.textContent;
+  setButtonText(submitButton, 'Сохранение...');
+
           //Получаем данные с сервера
           updateProfile(nameValue, descriptionValue)
           .then(updatedUser => {
@@ -124,9 +129,17 @@ document.addEventListener('DOMContentLoaded', () => {
           .catch(err => {
             console.log(err);
           })
+          .finally(() => {
+            setButtonText(submitButton, originalButtonText);
+          });
       });
     }
 });
+
+//функция для UX формы, пока ответ от сервера идёт меняет текст кнопки
+function setButtonText(button, text) {
+  button.textContent = text;
+};
 
 // Создаю обработчик события для нового аватара профиля
 avatarFormElement.addEventListener('submit', (event) => {
@@ -135,6 +148,11 @@ avatarFormElement.addEventListener('submit', (event) => {
   const avatarLinkInput = avatarPopup.querySelector('.popup__input_type_avatar-url');
   const newAvatarUrl = avatarLinkInput.value;
   console.log('URL для обновления аватара:', newAvatarUrl);
+//UX формы
+  const submitButton = avatarFormElement.querySelector('.popup__button');
+  const originalButtonText = submitButton.textContent;
+  setButtonText(submitButton, 'Сохранение...');
+
   updateAvatar(newAvatarUrl)
   .then((updatedUser) => {
     console.log('Аватар обновлен:', updatedUser);
@@ -146,6 +164,9 @@ avatarFormElement.addEventListener('submit', (event) => {
     })
     .catch((error) => {
       console.error('Не удалось обновить аватар:', error);
+    })
+    .finally(() => {
+      setButtonText(submitButton, originalButtonText);
     });
   });
   
@@ -180,6 +201,11 @@ newCardForm.addEventListener('submit', (event) => {
   const submitButton = newCardForm.querySelector('button[type="submit"]');
   submitButton.disabled = true; 
 
+  //UX формы
+  const saveButton = newCardForm.querySelector('.popup__button');
+  const originalButtonText = submitButton.textContent;
+  setButtonText(saveButton, 'Сохранение...');
+
   //Отправим данные на сервер, получим карточку
   addNewCard(newCardData)
   .then(newCard => {
@@ -198,6 +224,7 @@ newCardForm.addEventListener('submit', (event) => {
   })
   //А после ответа сервера включим кнопку обратно
   .finally(() => {
+    setButtonText(submitButton, originalButtonText);
     submitButton.disabled = false;
   });
 });
