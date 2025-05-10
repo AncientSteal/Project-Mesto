@@ -1,6 +1,7 @@
 # Проектная работа Mesto
 ## Курс обучения в [**Яндекс Практикум**](https://practicum.yandex.ru/) по программе [**Веб-разработчик**](https://practicum.yandex.ru/web/)
 [Посмотреть проект](https://github.com/AncientSteal/Project-Mesto)
+[GitHub Pages](https://ancientsteal.github.io/Project-Mesto/)
 ---
 ## *9 спринт
 ## Краткое описание
